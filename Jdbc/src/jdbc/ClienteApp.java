@@ -1,5 +1,6 @@
 package jdbc;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -30,7 +31,7 @@ public class ClienteApp {
 
 	public static void inserir(int id_pessoa, String nome, String cpf) throws SQLException {
 
-		String sql = "insert into PESSOA values(" + id_pessoa + ",'" + nome + ",'" + cpf + "')";
+		String sql = "insert into PESSOA (id_pessoa,nome,cpf) values('" + id_pessoa + "','" + nome + "','" + cpf + "')";
 		Statement statement = conexao.createStatement();
 		statement.execute(sql);
 		conexao.commit();
@@ -56,12 +57,14 @@ public class ClienteApp {
 		Statement statement = conexao.createStatement();
 
 		ResultSet rs = statement.executeQuery(sql);
-		int  contadorRegistros = rs.getRow();
+		int  contadorRegistros = 0;
 
 		while (rs.next()) {
 
-			System.out.println("cpf :" + rs.getInt(1) + "Nome :" + rs.getString(2) + "Cpf :" + rs.getString(3));
+			System.out.println("ID :" + rs.getInt(1) + "Nome :" + rs.getString(2) + "Cpf :" + rs.getString(3));
+			System.out.println();
 			System.out.println("===============================================================================");
+			contadorRegistros++;
 		}
 		System.out.println("Quantidade de Registros :"+contadorRegistros);
 	}
@@ -85,7 +88,7 @@ public class ClienteApp {
 		
 	}
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, IOException {
 		
 		conectar();
 		
@@ -96,7 +99,10 @@ public class ClienteApp {
 		int id_pessoa;
 		String nome,email;
 		
-		while(opcao !=6) {
+		do{
+			System.out.println();
+			System.out.println();
+			System.out.println();
 			System.out.println("<=============== Sistema de Gerenciamento de Clientes ==============>");
 			System.out.println("Digite [1] para consultar todos os clientes =========================");
 			System.out.println("Digite [2] para consultar cliente especifico=========================");
@@ -105,7 +111,67 @@ public class ClienteApp {
 			System.out.println("Digite [5] para excluir um cliente ==================================");
 			System.out.println("Digite [6] sair do sistema ==========================================");
 			System.out.println("<===================================================================>");
-		}
+			opcao = sc.nextInt();
+			
+			
+			switch (opcao) {
+			
+			case 1: //consultar todos
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				
+				System.out.println("[1]=============== CONSULTAR TODOS OS REGISTROS ===============================");
+				System.out.println("===============================================================================");
+				System.out.println();
+				consultarTodosRegistros();
+				
+				break;
+			case 2: // cliente especifico
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				System.out.println("[2] Consultar Cliente");
+				System.out.println("informar o ID do colaborador >>>");
+				id_pessoa = sc.nextInt();
+				
+				if(id_pessoa!=0) {
+					
+					consultar(id_pessoa);
+				}
+				
+				break;
+			case 3 : // novo cliente
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				
+				System.out.println("[3] Cadastrar Cliente");
+				System.out.println("informe o nome : ");
+				nome = sc.next();
+				sc.nextLine();
+				System.out.println("informe email");
+				email = sc.next();
+				System.out.println("informe id:");
+				id_pessoa = sc.nextInt();
+				inserir(id_pessoa, nome, email);
+					
+				break;
+			case 4: //alterar cliente
+				System.out.println("alterar cliente");
+				
+				break;
+				
+			case 5: //excluir cliente
+				System.out.println("excluir cliente");
+				break;
+				
+				
+			case 6 : // sair do sistema
+				System.out.println("encerrando sistema........");
+				break;
+			}
+		}while(opcao!=6);
 		
 		
 		
