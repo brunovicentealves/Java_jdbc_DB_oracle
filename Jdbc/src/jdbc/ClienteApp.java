@@ -97,7 +97,7 @@ public class ClienteApp {
 		int opcao = 0;
 		
 		int id_pessoa;
-		String nome,email;
+		String nome,cpf;
 		
 		do{
 			System.out.println();
@@ -150,20 +150,33 @@ public class ClienteApp {
 				System.out.println("informe o nome : ");
 				nome = sc.next();
 				sc.nextLine();
-				System.out.println("informe email");
-				email = sc.next();
+				System.out.println("informe cpf");
+				cpf = sc.next();
 				System.out.println("informe id:");
 				id_pessoa = sc.nextInt();
-				inserir(id_pessoa, nome, email);
+				inserir(id_pessoa, nome, cpf);
 					
 				break;
 			case 4: //alterar cliente
-				System.out.println("alterar cliente");
+				System.out.println("[4]alterar cliente");
+				System.out.println("digite o id do cliente que você deseja alterar os dados");
+				id_pessoa= sc.nextInt();
+				consultar(id_pessoa);
+				
+				System.out.println("digite o nome Novamente:");
+				nome=sc.next();
+				System.out.println("digite o Cpf novamente:");
+				cpf=sc.next();
+				alterar(id_pessoa, nome, cpf);
+				
 				
 				break;
 				
 			case 5: //excluir cliente
-				System.out.println("excluir cliente");
+				System.out.println("[5]excluir cliente");
+				System.out.println("informar o id do cliente que você deseja Excluir :");
+				id_pessoa = sc.nextInt();
+				excluir(id_pessoa);
 				break;
 				
 				
